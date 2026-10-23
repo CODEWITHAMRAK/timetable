@@ -1,0 +1,199 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Time Table generator</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+        <link rel="stylesheet" href="time_table.css">
+        <script src="time_table.js" defer></script>
+    </head>
+    <body>
+        <div class="app">
+            <h2 id="page-title">College Timetable Generator</h2>
+
+            <div class="stepper">
+                <button class="step-tab active" onclick="goStep(0)" id="stab0">
+                    1 · Schedule
+                </button>
+                <button class="step-tab" onclick="goStep(1)" id="stab1">
+                    2 · Rooms
+                </button>
+                <button class="step-tab" onclick="goStep(2)" id="stab2">
+                    3 · Teachers
+                </button>
+                <button class="step-tab" onclick="goStep(3)" id="stab3">
+                    4 · Sections
+                </button>
+                <button class="step-tab" onclick="goStep(4)" id="stab4">
+                    5 · Generate
+                </button>
+            </div>
+
+            <div id="msg"></div>
+
+            <!-- STEP 0: Schedule params -->
+            <div id="panel0">
+                <div class="card">
+                    <h3>Schedule parameters</h3>
+                    <div class="row">
+                        <div class="field">
+                            <label>Working days per week</label>
+                            <input
+                                type="number"
+                                id="numDays"
+                                value="5"
+                                min="1"
+                                max="7"
+                            />
+                        </div>
+                        <div class="field">
+                            <label>Teaching classes per day</label>
+                            <input
+                                type="number"
+                                id="classesPD"
+                                value="6"
+                                min="1"
+                                max="12"
+                            />
+                        </div>
+                    </div>
+                    <div class="row3">
+                        <div class="field">
+                            <label>Class start time</label>
+                            <input type="time" id="startTime" value="09:00" />
+                        </div>
+                        <div class="field">
+                            <label>Class duration (min)</label>
+                            <input
+                                type="number"
+                                id="classDur"
+                                value="60"
+                                min="15"
+                                max="240"
+                            />
+                        </div>
+                        <div class="field">
+                            <label>Lunch duration (min, 0=none)</label>
+                            <input
+                                type="number"
+                                id="lunchDur"
+                                value="60"
+                                min="0"
+                                max="240"
+                            />
+                        </div>
+                    </div>
+                    <div class="field" style="max-width: 200px">
+                        <label>Lunch after class #</label>
+                        <input
+                            type="number"
+                            id="lunchAfter"
+                            value="3"
+                            min="0"
+                            max="12"
+                        />
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="section-header">
+                        <h3>Day names</h3>
+                        <button class="btn btn-sm" onclick="resetDays()">
+                            Reset defaults
+                        </button>
+                    </div>
+                    <div
+                        id="dayNames"
+                        style="
+                            display: grid;
+                            grid-template-columns: repeat(
+                                auto-fill,
+                                minmax(130px, 1fr)
+                            );
+                            gap: 8px;
+                        "
+                    ></div>
+                </div>
+                <div class="actions">
+                    <button class="btn btn-primary" onclick="nextStep()">
+                        Next: Rooms →
+                    </button>
+                </div>
+            </div>
+
+            <!-- STEP 1: Rooms -->
+            <div id="panel1" style="display: none">
+                <div class="section-header">
+                    <h3>Classrooms & labs</h3>
+                    <button class="btn btn-sm" onclick="addRoom()">
+                        <i class="ti ti-plus" aria-hidden="true"></i> Add room
+                    </button>
+                </div>
+                <div id="roomList"></div>
+                <div class="actions">
+                    <button class="btn" onclick="prevStep()">← Back</button>
+                    <button class="btn btn-primary" onclick="nextStep()">
+                        Next: Teachers →
+                    </button>
+                </div>
+            </div>
+
+            <!-- STEP 2: Teachers -->
+            <div id="panel2" style="display: none">
+                <div class="section-header">
+                    <h3>Faculty</h3>
+                    <button class="btn btn-sm" onclick="addTeacher()">
+                        <i class="ti ti-plus" aria-hidden="true"></i> Add
+                        teacher
+                    </button>
+                </div>
+                <div id="teacherList"></div>
+                <div class="actions">
+                    <button class="btn" onclick="prevStep()">← Back</button>
+                    <button class="btn btn-primary" onclick="nextStep()">
+                        Next: Sections →
+                    </button>
+                </div>
+            </div>
+
+            <!-- STEP 3: Sections -->
+            <div id="panel3" style="display: none">
+                <div class="section-header">
+                    <h3>Sections & subjects</h3>
+                    <button class="btn btn-sm" onclick="addSection()">
+                        <i class="ti ti-plus" aria-hidden="true"></i> Add
+                        section
+                    </button>
+                </div>
+                <div id="sectionList"></div>
+                <div class="actions">
+                    <button class="btn" onclick="prevStep()">← Back</button>
+                    <button class="btn btn-primary" onclick="nextStep()">
+                        Review & Generate →
+                    </button>
+                </div>
+            </div>
+
+            <!-- STEP 4: Generate -->
+            <div id="panel4" style="display: none">
+                <div
+                    id="summary"
+                    class="card"
+                    style="margin-bottom: 1rem"
+                ></div>
+                <div id="feasMsg"></div>
+                <div class="actions" id="genActions">
+                    <button class="btn" onclick="prevStep()">← Back</button>
+                    <button
+                        class="btn btn-primary"
+                        onclick="runSolver()"
+                        id="genBtn"
+                    >
+                        <i class="ti ti-player-play" aria-hidden="true"></i>
+                        Generate timetable
+                    </button>
+                </div>
+                <div id="results"></div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,411 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+:root {
+    --step: 0;
+    
+    /* Core Typography */
+    --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    
+    /* Premium Design Color Tokens */
+    --color-text-primary: #0f172a;        /* Sleek Slate 900 */
+    --color-text-secondary: #475569;      /* Slate 600 */
+    --color-text-success: #15803d;        /* Emerald 700 */
+    --color-text-danger: #be123c;         /* Rose 700 */
+    --color-text-info: #0369a1;           /* Sky 700 */
+    --color-text-warning: #a16207;        /* Amber 700 */
+    
+    --color-background-primary: #ffffff;  /* Pure White for Cards */
+    --color-background-secondary: #f8fafc;/* Soft Slate 50 for page & table header */
+    --color-background-success: #f0fdf4;  /* Light Emerald 50 */
+    --color-background-danger: #fff1f2;   /* Light Rose 50 */
+    --color-background-info: #f0f9ff;     /* Light Sky 50 */
+    --color-background-warning: #fffbeb;  /* Light Amber 50 */
+    
+    --color-border-secondary: #cbd5e1;    /* Slate 300 */
+    --color-border-tertiary: #e2e8f0;     /* Slate 200 */
+    --color-border-danger: #ffe4e6;      /* Rose 100 */
+    --color-border-success: #dcfce7;     /* Emerald 100 */
+    --color-border-warning: #fef3c7;     /* Amber 100 */
+    
+    --border-radius-lg: 12px;
+    --border-radius-md: 8px;
+}
+body {
+    font-family: var(--font-sans);
+    color: var(--color-text-primary);
+    background: #f1f5f9; /* Elegant warm slate background */
+    padding: 2rem 1rem;
+    min-height: 100vh;
+}
+h2 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: var(--color-text-primary);
+}
+h3 {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+label {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    display: block;
+    margin-bottom: 4px;
+}
+input,
+select {
+    width: 100%;
+    font-size: 14px;
+    padding: 8px 12px;
+    border: 1px solid var(--color-border-secondary);
+    border-radius: var(--border-radius-md);
+    background-color: var(--color-background-primary);
+    color: var(--color-text-primary);
+    outline: none;
+    transition: border-color 0.15s ease-in-out;
+}
+input:focus,
+select:focus {
+    border-color: #3b82f6; /* Modern Blue outline focus */
+}
+.app {
+    max-width: 850px;
+    margin: 0 auto;
+    background: var(--color-background-primary);
+    padding: 2rem;
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+}
+.stepper {
+    display: flex;
+    gap: 0;
+    margin-bottom: 2rem;
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+}
+.step-tab {
+    flex: 1;
+    padding: 10px 6px;
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: var(--color-text-secondary);
+    border-right: 0.5px solid var(--color-border-tertiary);
+    transition: all 0.15s;
+}
+.step-tab:last-child {
+    border-right: none;
+}
+.step-tab.active {
+    background: var(--color-background-secondary);
+    color: var(--color-text-primary);
+}
+.step-tab.done {
+    color: var(--color-text-success);
+}
+.card {
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-lg);
+    padding: 1rem 1.25rem;
+    margin-bottom: 0.75rem;
+}
+.row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 0.75rem;
+}
+.row3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 0.75rem;
+}
+.field {
+    margin-bottom: 0.75rem;
+}
+.btn {
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-secondary);
+    border-radius: var(--border-radius-md);
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    transition: all 0.15s;
+}
+.btn:hover {
+    background: var(--color-background-secondary);
+    color: var(--color-text-primary);
+}
+.btn:active {
+    transform: scale(0.98);
+}
+.btn-primary {
+    background: var(--color-text-primary);
+    color: var(--color-background-primary);
+    border-color: var(--color-text-primary);
+}
+.btn-primary:hover {
+    background: #1e293b; /* Lighter slate on hover */
+    color: var(--color-background-primary) !important;
+    border-color: #1e293b;
+    opacity: 0.95;
+}
+.btn-danger {
+    color: var(--color-text-danger);
+    border-color: var(--color-border-danger);
+}
+.btn-danger:hover {
+    background: var(--color-background-danger);
+    color: var(--color-text-danger) !important;
+    border-color: var(--color-border-danger);
+}
+.btn-pdf {
+    background: #e11d48; /* Modern Rose Red */
+    color: #ffffff;
+    border-color: #e11d48;
+}
+.btn-pdf:hover {
+    background: #be123c; /* Darker Rose on hover */
+    color: #ffffff !important;
+    border-color: #be123c;
+    opacity: 0.95;
+}
+.btn-sm {
+    padding: 5px 10px;
+    font-size: 12px;
+}
+.tag {
+    display: inline-block;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    background: var(--color-background-secondary);
+    color: var(--color-text-secondary);
+    border: 0.5px solid var(--color-border-tertiary);
+}
+.tag-success {
+    background: var(--color-background-success);
+    color: var(--color-text-success);
+}
+.tag-info {
+    background: var(--color-background-info);
+    color: var(--color-text-info);
+}
+.actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
+}
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+}
+.empty {
+    color: var(--color-text-secondary);
+    font-size: 13px;
+    text-align: center;
+    padding: 1rem;
+    border: 0.5px dashed var(--color-border-tertiary);
+    border-radius: var(--border-radius-md);
+}
+.alert {
+    padding: 10px 14px;
+    border-radius: var(--border-radius-md);
+    font-size: 13px;
+    margin-bottom: 0.75rem;
+    border: 0.5px solid;
+}
+.alert-err {
+    background: var(--color-background-danger);
+    color: var(--color-text-danger);
+    border-color: var(--color-border-danger);
+}
+.alert-ok {
+    background: var(--color-background-success);
+    color: var(--color-text-success);
+    border-color: var(--color-border-success);
+}
+.alert-warn {
+    background: var(--color-background-warning);
+    color: var(--color-text-warning);
+    border-color: var(--color-border-warning);
+}
+.tt-wrap {
+    overflow-x: auto;
+}
+.tt-table {
+    border-collapse: collapse;
+    font-size: 12px;
+    min-width: 600px;
+    width: 100%;
+}
+.tt-table th,
+.tt-table td {
+    border: 0.5px solid var(--color-border-tertiary);
+    padding: 6px 8px;
+    text-align: left;
+    white-space: nowrap;
+}
+.tt-table th {
+    background: var(--color-background-secondary);
+    font-weight: 500;
+    font-size: 11px;
+}
+.tt-table .lunch {
+    background: var(--color-background-warning);
+    color: var(--color-text-warning);
+    font-weight: 500;
+    text-align: center;
+}
+.tt-table .free {
+    color: var(--color-text-secondary);
+    font-size: 11px;
+}
+.tt-table .cls {
+    font-weight: 500;
+    font-size: 11px;
+}
+.tt-table .cls span {
+    display: block;
+    color: var(--color-text-secondary);
+    font-weight: 400;
+}
+.spin {
+    display: inline-block;
+    animation: spin 0.8s linear infinite;
+}
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+.metric-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 8px;
+    margin-bottom: 1rem;
+}
+.metric {
+    background: var(--color-background-secondary);
+    border-radius: var(--border-radius-md);
+    padding: 0.75rem 1rem;
+}
+.metric-val {
+    font-size: 22px;
+    font-weight: 500;
+    margin-top: 2px;
+}
+.metric-lbl {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+}
+
+/* ── Print Media Optimization (Save/Download as PDF) ────────── */
+@media print {
+    body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        font-size: 12px;
+    }
+    
+    .app {
+        box-shadow: none !important;
+        padding: 0 !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        background: transparent !important;
+    }
+    
+    /* Hide all non-printable UI elements, buttons, and settings */
+    .stepper,
+    #page-title,
+    #msg,
+    #panel0,
+    #panel1,
+    #panel2,
+    #panel3,
+    #summary,
+    #feasMsg,
+    #genActions,
+    .btn,
+    /* Hide the download buttons container at the bottom of results */
+    #results > div:last-child {
+        display: none !important;
+    }
+    
+    /* Ensure the generation panel and result grid are fully visible */
+    #panel4,
+    #results {
+        display: block !important;
+        opacity: 1 !important;
+    }
+    
+    /* Ensure tables expand correctly and enable print colors */
+    .tt-wrap {
+        overflow: visible !important;
+        width: 100% !important;
+    }
+    
+    .tt-table {
+        page-break-inside: avoid;
+        width: 100% !important;
+        min-width: unset !important;
+        border: 1px solid #000000 !important;
+    }
+    
+    .tt-table th, 
+    .tt-table td {
+        border: 1px solid #000000 !important;
+        color: #000000 !important;
+        padding: 8px 10px !important;
+        white-space: normal !important; /* Allow wrapping on print if tight */
+    }
+    
+    .tt-table th {
+        background-color: #f1f5f9 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        font-weight: bold;
+    }
+    
+    .tt-table .lunch {
+        background-color: #fefce8 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        font-weight: bold;
+    }
+    
+    .tt-table .free {
+        color: #777777 !important;
+    }
+    
+    /* Dynamic page break: Print each section and summary on separate pages */
+    #results > div {
+        page-break-after: always;
+        page-break-inside: avoid;
+        margin-top: 0 !important;
+        padding-top: 1rem;
+    }
+    
+    #results > div:last-child {
+        page-break-after: avoid;
+    }
+}
